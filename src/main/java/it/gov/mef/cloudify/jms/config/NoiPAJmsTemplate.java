@@ -67,9 +67,7 @@ public class NoiPAJmsTemplate extends JmsTemplate {
 		MessageProducer producer = createProducer(session, destination);
 		try {
 			Message message = messageCreator.createMessage(session);
-			if (logger.isDebugEnabled()) {
-				logger.debug("Sending created message: " + message);
-			}
+			
 			doSend(producer, message);
 			// Check commit - avoid commit call within a JTA transaction.
 			if (!nonTransactionalForceSessionFlag && session.getTransacted() 
