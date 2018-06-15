@@ -88,6 +88,7 @@ public class NoiPAJmsConfiguration {
 	public JmsTemplate jmsTemplate(){
 	    JmsTemplate template = new JmsTemplate();
 	    template.setConnectionFactory(connectionFactory());
+	    template.setReceiveTimeout(5000L);
 	    return template;
 	}
 
