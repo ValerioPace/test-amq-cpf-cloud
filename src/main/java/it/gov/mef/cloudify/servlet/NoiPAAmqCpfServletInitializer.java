@@ -42,11 +42,11 @@ import it.gov.mef.cloudify.model.Ente;
 public class NoiPAAmqCpfServletInitializer extends SpringBootServletInitializer {
  
 	
-    @Value("${spring.datasource.jndi-name}")
-	private String primaryJndiName;
-    
-    @Value("${spring.datasource.driver-class}")
-    private String driverClass;
+//    @Value("${spring.datasource.jndi-name}")
+//	private String primaryJndiName;
+//    
+//    @Value("${spring.datasource.driver-class}")
+//    private String driverClass;
     
     @Bean
     public static PropertyPlaceholderConfigurer ppc() throws IOException {
