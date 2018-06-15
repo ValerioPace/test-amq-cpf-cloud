@@ -86,7 +86,7 @@ public class NoiPAJmsConfiguration {
 	@Bean
 	@Lazy
 	public JmsTemplate jmsTemplate(){
-	    JmsTemplate template = new JmsTemplate();
+	    JmsTemplate template = new NoiPAJmsTemplate();
 	    template.setConnectionFactory(connectionFactory());
 	    template.setReceiveTimeout(5000L);
 	    return template;
