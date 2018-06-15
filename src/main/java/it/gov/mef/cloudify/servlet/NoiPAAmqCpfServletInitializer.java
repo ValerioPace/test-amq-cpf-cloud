@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
@@ -33,7 +34,8 @@ import it.gov.mef.cloudify.model.Ente;
 
 @SpringBootApplication
 @Import(NoiPAJmsConfiguration.class)
-@EnableAutoConfiguration(exclude={MongoAutoConfiguration.class})
+@EnableAutoConfiguration(exclude={MongoAutoConfiguration.class,
+		HibernateJpaAutoConfiguration.class})
 @EnableTransactionManagement
 @ComponentScan(basePackageClasses = ServiceController.class)
 @EntityScan(basePackageClasses = Ente.class)
