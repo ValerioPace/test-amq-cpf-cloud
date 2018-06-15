@@ -1,0 +1,79 @@
+#!/bin/bash
+
+set -e
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+echo "I'm customizing my Tomcat 7 persistent config and deployments Image!!"
+
+rm -rf $JWS_HOME/webapps/manager
+
+echo "Remove manager app and start the server.."
+
+echo "adding access valve log"
+
+accessvalvelog="<Valve className=\"org.apache.catalina.valves.AccessLogValve\" directory=\"logs\" \
+            prefix=\"localhost_access_log.\" suffix=\".txt\" \
+            pattern=\"%{X-Forwarded-For}i %l %u %t %r %s %b\" /> \
+			</Host>"
+			
+sed -i "s|</Host>|$accessvalvelog|" $JWS_HOME/conf/server.xml
+
+echo "access valve log added"
+
+echo "starting simple storage script on bootstrap"
+
+#chmod +x $DIR/mount_tomcat.sh
+#source $DIR/mount_tomcat.sh
+
+chown -R jboss:jboss $JWS_HOME
+echo "chown jboss:jboss $JWS_HOME"
+echo $?
+
+DIRECTORY=/mnt/tomcat/webserver/webapps
+
+if [ ! -d "$DIRECTORY" ]; then
+
+echo "$DIRECTORY doesn't exists in volume mount, fill it for the first time.."
+
+## swap mount storage with webserver ephemeral data if not already present in the volume
+
+cp -rf $JWS_HOME /mnt/tomcat/
+echo "cp -rf $JWS_HOME/* /mnt/tomcat/webserver"
+echo $?
+
+rm -f /mnt/tomcat/webserver/webapps
+echo "remove symbolic link to deployments dir via : rm -f /mnt/tomcat/webserver/webapps"
+echo $?
+cp -rf /deployments /mnt/tomcat/webserver/webapps
+echo "cp -rf /deployments /mnt/tomcat/webserver/webapps"
+echo $?
+
+fi
+
+rm -rf $JWS_HOME/*
+echo "rm -rf $JWS_HOME/*"
+echo $?
+
+for name in $(find /mnt/tomcat/webserver -mindepth 1 -maxdepth 1 -type d); do ln -s $name $JWS_HOME; done
+#echo "for name in $(find /mnt/tomcat/webserver -mindepth 1 -maxdepth 1 -type d); do ln -s $name $JWS_HOME; done, check.."
+find /mnt/tomcat/webserver -mindepth 1 -maxdepth 1 -type f -exec cp {} $JWS_HOME \;
+
+echo $?
+ls -lrt /opt
+ls -lrt $JWS_HOME
+
+
+echo "$JWS_HOME/bin/launch.sh"
+exec $JWS_HOME/bin/launch.sh
+
+
+
+
+echo "End customization"
