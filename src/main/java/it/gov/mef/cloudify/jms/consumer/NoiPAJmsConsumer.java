@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 
+import it.gov.mef.cloudify.dto.CRPMessage;
+
 @Component
 public class NoiPAJmsConsumer {
 
@@ -22,7 +24,7 @@ public class NoiPAJmsConsumer {
 	@Autowired
 	Queue queue;
 	
-	public void receiveMessage() throws JMSException {
+	public CRPMessage receiveMessage() throws JMSException {
 		
 		Message message = jmsTemplate.receive(queue);
 		
@@ -37,6 +39,13 @@ public class NoiPAJmsConsumer {
 		
 		System.out.println("Response from JMS Queue consumer: " + response);
 		System.out.println("Message ["+ jmsMessageID +"] #" + messageSeqNumber + " processed");
+		
+		CRPMessage result = new CRPMessage();
+		result.setName((String) map.get("name"));
+		result.setTalkTo((String) map.get("talkTo"));
+		result.setSequenceNumber(Long.parseLong((String) map.get("seqNumber")));
+		 
+		return result;
 	}
 	
 }
