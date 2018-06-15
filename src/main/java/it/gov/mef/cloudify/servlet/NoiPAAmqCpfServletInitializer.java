@@ -54,30 +54,30 @@ public class NoiPAAmqCpfServletInitializer extends SpringBootServletInitializer 
         return ppc;
     }
     
-    @Primary
-    @Bean(destroyMethod = "", name="dataSource")
-    public DataSource jndiDataSource() {
-    	JndiDataSourceLookup lookup = new JndiDataSourceLookup();
-    	return lookup.getDataSource(primaryJndiName);  	
-    }
-    
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
-        LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
-        lef.setDataSource(dataSource);
-        lef.setJpaVendorAdapter(jpaVendorAdapter);
-        lef.setPackagesToScan("it.gov.mef.cloudify.model");
-        return lef;
-    }
-
-    @Bean
-    public JpaVendorAdapter jpaVendorAdapter() {
-        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
-        hibernateJpaVendorAdapter.setShowSql(false);
-        hibernateJpaVendorAdapter.setGenerateDdl(true);
-        hibernateJpaVendorAdapter.setDatabase(Database.MYSQL);
-        return hibernateJpaVendorAdapter;
-    }
+//    @Primary
+//    @Bean(destroyMethod = "", name="dataSource")
+//    public DataSource jndiDataSource() {
+//    	JndiDataSourceLookup lookup = new JndiDataSourceLookup();
+//    	return lookup.getDataSource(primaryJndiName);  	
+//    }
+//    
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
+//        LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
+//        lef.setDataSource(dataSource);
+//        lef.setJpaVendorAdapter(jpaVendorAdapter);
+//        lef.setPackagesToScan("it.gov.mef.cloudify.model");
+//        return lef;
+//    }
+//
+//    @Bean
+//    public JpaVendorAdapter jpaVendorAdapter() {
+//        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
+//        hibernateJpaVendorAdapter.setShowSql(false);
+//        hibernateJpaVendorAdapter.setGenerateDdl(true);
+//        hibernateJpaVendorAdapter.setDatabase(Database.MYSQL);
+//        return hibernateJpaVendorAdapter;
+//    }
 	
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
