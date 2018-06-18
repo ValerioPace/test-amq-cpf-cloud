@@ -556,6 +556,7 @@
                     },
                     "spec": {
                         "terminationGracePeriodSeconds": 60,
+						"serviceAccountName": "eap-service-account",
                         "containers": [
                             {
                                 "name": "${APPLICATION_NAME}",
@@ -781,7 +782,8 @@
                         }
                     },
                     "spec": {
-                        "terminationGracePeriodSeconds": 60,
+                        "terminationGracePeriodSeconds": 60,						
+						"serviceAccountName": "amq-service-account",
                         "containers": [
                             {
                                 "name": "${APPLICATION_NAME}-amq",
