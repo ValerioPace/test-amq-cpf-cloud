@@ -102,6 +102,11 @@
             </exclusions>
         </dependency>
 		-->
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId>
+		</dependency>
 
 
 	<dependency>
