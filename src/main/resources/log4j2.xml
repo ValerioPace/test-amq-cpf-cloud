@@ -16,13 +16,15 @@
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
     </Appenders>
-    <Logger name="org.springframework" level="info" additivity="false">
-        <AppenderRef ref="file" />
-        <AppenderRef ref="console" />
-    </Logger>
-    
-    <Logger name="it.gov.mef.cloudify" level="info" additivity="false">
-        <AppenderRef ref="file" />
-        <AppenderRef ref="console" />
-    </Logger>
+    <Loggers>
+	    <Logger name="org.springframework" level="info" additivity="false">
+	        <AppenderRef ref="file" />
+	        <AppenderRef ref="console" />
+	    </Logger>
+	    
+	    <Logger name="it.gov.mef.cloudify" level="info" additivity="false">
+	        <AppenderRef ref="file" />
+	        <AppenderRef ref="console" />
+	    </Logger>
+    </Loggers>
 </Configuration>
