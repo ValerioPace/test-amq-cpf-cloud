@@ -2,6 +2,8 @@ package it.gov.mef.cloudify;
 
 import javax.jms.JMSException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +25,8 @@ public class ServiceController {
 	
 	@Autowired
 	private NoiPAJmsConsumer jmsConsumer;
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 		
 	@RequestMapping("/")
 	public String hello() {
@@ -39,11 +43,16 @@ public class ServiceController {
 			messageJson = jmsProducer.produceSimpleMessageFromMap();
 		}
 		
+		logger.info("message Json build ok for JMS producer");
+		
 		try {
 			jmsProducer.sendMessage(messageJson);
 		} catch (JMSException e) {
+			logger.error("message Json deliver to MDB failed cause: ", e);
 			return new ResponseEntity<String>("{\"status\": \"failure\"}", HttpStatus.BAD_REQUEST);
 		}
+		
+		logger.info("message Json send ok");
 		
 		return new ResponseEntity<String>("{\"status\": \"ok\"}", HttpStatus.OK);
 	}
@@ -55,11 +64,14 @@ public class ServiceController {
 		try {
 			crpMessage = jmsConsumer.receiveMessage();
 		} catch (JMSException e) {
+			logger.error("couldn't retrieve any message from MDB cause: ", e);
 			CRPMessage errorCrpMessage = new CRPMessage();
 			errorCrpMessage.setStatus("failure");
 			// TODO Auto-generated catch block
 			return new ResponseEntity<CRPMessage>(errorCrpMessage, HttpStatus.BAD_REQUEST);
 		}
+		
+		logger.info("message Json receive ok: " + crpMessage);
 		
 		return new ResponseEntity<CRPMessage>(crpMessage, HttpStatus.OK);
 	}

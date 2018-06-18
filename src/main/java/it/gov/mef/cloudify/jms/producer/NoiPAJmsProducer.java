@@ -10,6 +10,8 @@ import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
@@ -26,16 +28,20 @@ public class NoiPAJmsProducer {
 	@Autowired
 	Queue queue;
 	
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	
 	private static AtomicLong sequencer = new AtomicLong(0L);
 
 	public void sendMessage(final String message) throws JMSException {
 		
-		System.out.println("Sending message " + message + "to queue - " + queue.getQueueName());
+		logger.info("Sending message " + message + "to queue - " + queue.getQueueName());
 		
 		jmsTemplate.send(queue, new MessageCreator() {
 
 			public Message createMessage(Session session) throws JMSException {
 				TextMessage textMessage = session.createTextMessage(message);
+				
+				logger.info("inside an active JMS Session create text message: " + textMessage.getText());
 				
 				return textMessage;
 			}
