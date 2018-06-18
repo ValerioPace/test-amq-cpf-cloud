@@ -6,7 +6,7 @@
          </Console>
         <RollingFile name="file"
             filePattern="${sys:jboss.server.base.dir}/log/test-amq-cpf-'%d{yyyy-MM-dd}.log"
-            fileName="${sys:jboss.server.base.dir}/log/test-amq-cpf.log">
+            fileName="${sys:jboss.server.base.dir}/log/test-amq-cpf.log" immediateFlush="true">
             <PatternLayout
                 pattern="%d{yyyy-MM-dd'T'HH:mm:ss.SSS} - %c{1.} %5p - %m%n" />
             <Policies>
@@ -26,5 +26,8 @@
 	        <AppenderRef ref="file" />
 	        <AppenderRef ref="console" />
 	    </Logger>
+	    <Root level="error">
+      		<AppenderRef ref="Console"/>
+    	</Root>
     </Loggers>
 </Configuration>
