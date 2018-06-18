@@ -90,16 +90,19 @@
             </exclusions>
         </dependency>
         
+        <!-- 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-activemq</artifactId>
+            <exclusions>
+            	<exclusion>
+            		<groupId>org.apache.activemq</groupId>
+            		<artifactId>activemq-broker</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
-		
+		-->
 
-	<dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-broker</artifactId>
-        </dependency>
 
 	<dependency>
             <groupId>com.google.code.gson</groupId>
@@ -137,6 +140,7 @@
             <artifactId>jboss-ejb-api_3.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
+        
         <!-- HikariCP connection pool -->
         <!--  
         <dependency>
